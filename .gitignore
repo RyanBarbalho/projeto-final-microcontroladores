@@ -1,0 +1,22 @@
+# Arquivos compilados
+build/
+*.o
+*.elf
+*.hex
+*.map
+
+# Arquivos do sistema
+.DS_Store
+Thumbs.db
+
+# Arquivos de IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Arquivos temporários
+*.tmp
+*.bak
+
