@@ -401,25 +401,24 @@ void check_serial_disarm() {
  }
 
 unsigned long calculate_beep_interval(unsigned long time_left) {
-  // Intervalo entre beeps muda a cada 20 segundos
+  // Intervalo entre beeps muda conforme o tempo diminui
   // Quanto menor o tempo, menor o intervalo (beeps mais frequentes)
 
-  // Determinar em qual faixa de 20 segundos estamos
-  // 60-41: faixa 3, 40-21: faixa 2, 20-1: faixa 1
-  unsigned long faixa = (time_left + 19) / 20; // Arredonda para cima (faixas de 20 segundos)
-
   // Intervalos em milissegundos para cada faixa
-  // Faixa 3 (60-41s): 1000ms (1 beep por segundo)
-  // Faixa 2 (40-21s): 500ms (2 beeps por segundo)
-  // Faixa 1 (20-1s): 250ms (4 beeps por segundo)
+  // 60-41s: 1000ms (1 beep por segundo)
+  // 40-21s: 500ms (2 beeps por segundo)
+  // 20-11s: 250ms (4 beeps por segundo)
+  // 10-1s: 200ms  (5 beeps por segundo)
   unsigned long interval;
 
-  if (faixa >= 3) {
-    interval = 1000; // 60-41 segundos
-  } else if (faixa == 2) {
-    interval = 500;  // 40-21 segundos
+  if (time_left <= 10) {
+    interval = 200;  // 10-1 segundos: 8 beeps por segundo (muito acelerado!)
+  } else if (time_left <= 20) {
+    interval = 250;  // 20-11 segundos: 4 beeps por segundo
+  } else if (time_left <= 40) {
+    interval = 500;  // 40-21 segundos: 2 beeps por segundo
   } else {
-    interval = 250;  // 20-1 segundos
+    interval = 1000; // 60-41 segundos: 1 beep por segundo
   }
 
   return interval;
